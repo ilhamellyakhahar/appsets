@@ -27,7 +27,7 @@ spec:
           recurse: true
       destination:
         server: https://kubernetes.default.svc
-        namespace: project-1
+        namespace: development-project-1
       syncPolicy:
         automated:
           prune: true
