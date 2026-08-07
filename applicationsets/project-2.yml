@@ -1,21 +1,22 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: folder-apps
-  namespace: argocd
+  name: project-2-services
+  namespace: default
 spec:
   generators:
     - git:
         repoURL: https://github.com/ilhamellyakhahar/appsets.git
         revision: main
         directories:
-          - path: apps/*
+          - path: development/project-2/*
   template:
     metadata:
-      name: '{{path.basename}}'
+      name: 'project-2-{{path.basename}}'
       labels:
         managed-by: applicationset
         source: git-directories
+        project: project-2
     spec:
       project: default
       source:
@@ -26,7 +27,10 @@ spec:
           recurse: true
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{path.basename}}'
+        namespace: project-2
       syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
         syncOptions:
           - CreateNamespace=true

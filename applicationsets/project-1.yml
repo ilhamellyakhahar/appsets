@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: project-1-services
+  namespace: default
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/ilhamellyakhahar/appsets.git
+        revision: main
+        directories:
+          - path: development/project-1/*
+  template:
+    metadata:
+      name: 'project-1-{{path.basename}}'
+      labels:
+        managed-by: applicationset
+        source: git-directories
+        project: project-1
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/ilhamellyakhahar/appsets.git
+        targetRevision: main
+        path: '{{path}}'
+        directory:
+          recurse: true
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: project-1
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: guestbook
+  name: service-1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: guestbook
+      app: service-1
   template:
     metadata:
       labels:
-        app: guestbook
+        app: service-1
     spec:
       containers:
-        - name: guestbook
+        - name: service-1
           image: nginx:1.27-alpine
           envFrom:
             - configMapRef:
-                name: guestbook-config
+                name: service-1-config
           ports:
             - containerPort: 80
           resources:
