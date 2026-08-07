@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: service-3-config
+data:
+  app-name: service-3
+  app-message: welcome-to-service-3
